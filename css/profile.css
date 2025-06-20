@@ -1,0 +1,698 @@
+:root {
+    --purple: #673AB7;
+    --white: #FFFFFF;
+    --gray-light: #F0F0F0;
+    --gray-dark: #666666;
+    --color-purple-dark: #673AB7;
+    --color-purple-light: #9575CD;
+    --color-white: #FFFFFF;
+    --color-gray-light: #F7F7FA;
+    --color-gray-medium: #B0B0C3;
+    --color-gray-dark: #5A5A75;
+    --color-text-dark: #222222;
+    --border-radius: 20px;
+    --avatar-size-desktop: 96px;
+    --avatar-size-mobile: 64px;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --chip-padding: 8px 16px;
+    --chip-font-size: 0.95rem;
+    --header-padding-desktop: 24px 16px 48px 16px;
+    --header-padding-mobile: 16px 12px 32px 12px;
+    --box-shadow-chip: 0 2px 5px rgba(103, 58, 183, 0.15);
+}
+* {
+    box-sizing: border-box;
+}
+.review-block, .rating-block {
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.recipe-card {
+    background: linear-gradient(135deg, #f4f4ff, #ffffff);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.recipe-card h3 {
+    margin: 0 0 4px;
+    color: #4b0082;
+}
+
+.user-rating {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ffaa00;
+}
+
+.review-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 8px;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0px 0px 80px;
+}
+#ingredient-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+    padding: 0px;
+}
+
+.ingredient-card {
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+
+.ingredient-card:hover {
+    border-color: #888;
+}
+
+.ingredient-card.selected {
+    border-color: #fff;
+}
+
+.ingredient-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.ingredient-card span {
+    display: block;
+    color: #fff;
+    font-size: 14px;
+}
+
+#suggestions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+}
+
+#suggestions li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#suggestions li:hover {
+    background-color: #f0f0f0;
+}
+.ingredient-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 12px;
+    width: 120px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.ingredient-card:hover {
+    transform: scale(1.02);
+}
+
+.ingredient-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.ingredient-card span {
+    font-size: 14px;
+    color: #333;
+    word-wrap: break-word;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    color: #333;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    line-height: 20px;
+    padding: 0;
+    transition: background 0.2s;
+}
+
+.remove-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+input {
+    width: 100%;
+    padding: 14px 16px; /* увеличил паддинг */
+    margin-bottom: 18px;
+    border: none;
+    border-radius: 12px;
+    background-color: #f7f7f7;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #8000ff;
+    box-shadow: 0 0 0 2px rgba(128, 0, 255, 1);
+    outline: none;
+}
+.input-group {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 100%;
+
+}
+
+
+header {
+    background: linear-gradient(180deg, var(--color-purple-dark) 0%, var(--color-white) 100%);
+    padding: var(--header-padding-desktop);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(103, 58, 183, 0.1);
+}
+header .avatar {
+    width: var(--avatar-size-desktop);
+    height: var(--avatar-size-desktop);
+    border-radius: 50%;
+    border: 3px solid var(--color-white);
+    background-image: url('https://i.pravatar.cc/96');
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(103, 58, 183, 0.3);
+}
+header .user-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+header .user-info h1 {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--color-white);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+header .user-info p {
+    margin: 0;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--color-white);
+    opacity: 0.85;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+header .edit-icon {
+    position: absolute;
+    top: 24px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    fill: var(--color-white);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+    background: rgba(255 255 255 / 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px rgba(103, 58, 183, 0.4);
+}
+header .edit-icon:hover {
+    opacity: 1;
+    background: rgba(255 255 255 / 0.3);
+    box-shadow: 0 0 12px rgba(103, 58, 183, 0.7);
+}
+
+main {
+    flex-grow: 1;
+    padding: 32px 24px 48px 24px;
+    background-color: var(--color-white);
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+}
+section {
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 16px;
+    padding: 10px 20px 28px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+section h2 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: var(--color-gray-dark);
+    border-bottom: none;
+    padding-bottom: 0;
+    letter-spacing: 0.02em;
+}
+
+/* Исключенные ингредиенты */
+.excluded-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.form-label {
+    display: block;
+    margin-bottom: 16px;
+    font-weight: 600;
+    color: var(--color-gray-dark);
+}
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--color-gray-medium);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    margin-top: 6px;
+    background-color: var(--color-gray-light);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-purple-dark);
+    box-shadow: 0 0 6px rgba(103, 58, 183, 0.3);
+}
+
+.save-button {
+    background-color: var(--color-purple-dark);
+    color: var(--color-white);
+    padding: 14px 28px;
+    border: none;
+    margin-bottom: 50px;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(103, 58, 183, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: var(--color-purple-light);
+    box-shadow: 0 6px 16px rgba(103, 58, 183, 0.5);
+}
+
+.chip {
+    background: var(--color-white);
+    color: var(--color-purple-dark);
+    border-radius: var(--border-radius);
+    padding: var(--chip-padding);
+    font-size: var(--chip-font-size);
+    font-weight: 600;
+    box-shadow: var(--box-shadow-chip);
+    user-select: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+    white-space: nowrap;
+}
+.chip:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(103, 58, 183, 0.35);
+}
+
+/* Статистика */
+.stats-row {
+    font-size: 1.15rem;
+    color: var(--color-gray-dark);
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+.stats-row span.value {
+    font-weight: 700;
+    margin-left: 6px;
+    color: var(--color-purple-dark);
+}
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 -2px 8px rgba(103, 58, 183, 0.15);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 100;
+}
+
+.nav-item {
+    background: var(--white);
+    border: none;
+    cursor: pointer;
+    color: var(--purple);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    gap: 4px;
+    padding: 6px 8px;
+    border-radius: 12px;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    outline-offset: 3px;
+}
+
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--purple);
+    transition: fill 0.3s ease;
+}
+
+.nav-item span {
+    user-select: none;
+    display: block;
+}
+
+.nav-item.active {
+    background-color: var(--purple);
+    color: var(--white);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(103, 58, 183, 0.4);
+    justify-content: center;
+}
+.nav-item.active svg {
+    fill: var(--white);
+}
+.nav-item.active span {
+    display: none;
+}
+
+.nav-item:not(.active):hover,
+.nav-item:not(.active):focus-visible {
+    background-color: var(--gray-light);
+    color: var(--purple);
+    border-radius: 16px;
+    box-shadow: 0 0 8px rgba(103, 58, 183, 0.1);
+}
+
+.nav-item:not(.active):hover svg,
+.nav-item:not(.active):focus-visible svg {
+    fill: var(--purple);
+}
+.clickable-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 16px;
+    padding: 12px 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.clickable-section:hover,
+.clickable-section:focus-visible {
+    background-color: var(--color-gray-light);
+    box-shadow: 0 4px 12px rgba(103, 58, 183, 0.2);
+    outline: none;
+}
+
+.arrow-icon {
+    flex-shrink: 0;
+    stroke: var(--color-purple-dark);
+}
+
+.stats-row {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--color-gray-dark);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+
+.nav-item:focus-visible {
+    outline: 2px solid var(--purple);
+}
+
+.profile-section {
+    padding: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.review-card {
+    display: flex;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.review-img img {
+    width: 100px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-content {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-header h3 {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.like-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.stars {
+    color: #ffcc00;
+    font-size: 16px;
+    margin: 6px 0;
+}
+
+.meta {
+    font-size: 12px;
+    color: #777;
+}
+.brief-info {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    color: #444;
+    margin: 4px 0;
+}
+.like-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.like-btn:hover {
+    transform: scale(1.1);
+}
+.review-card {
+    display: flex;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    margin: 16px 0;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.review-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 16px 0 0 16px;
+}
+
+.review-body {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.like-btn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: default;
+}
+
+.brief-info {
+    font-size: 13px;
+    color: #555;
+    margin: 4px 0;
+}
+
+.review-text {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #222;
+}
+
+.review-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #999;
+}
+
+.review-actions button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    header {
+        padding: var(--header-padding-mobile);
+        gap: 12px;
+    }
+    header .avatar {
+        width: var(--avatar-size-mobile);
+        height: var(--avatar-size-mobile);
+        border-width: 2px;
+        box-shadow: 0 0 8px rgba(103, 58, 183, 0.25);
+    }
+    header .user-info h1 {
+        font-size: 1.4rem;
+    }
+    header .user-info p {
+        font-size: 1rem;
+    }
+    header .edit-icon {
+        top: 16px;
+        right: 12px;
+        width: 48px;
+        height: 48px;
+    }
+    main {
+        padding: 24px 16px 32px 16px;
+    }
+    section h2 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+        color: var(--color-gray-medium);
+    }
+    .chip {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+    .stats-row {
+        font-size: 1rem;
+    }
+    nav.bottom-nav svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (min-width: 641px) {
+    main {
+        max-width: 720px;
+    }
+}

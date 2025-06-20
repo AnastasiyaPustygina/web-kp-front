@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Мои оценки</title>
+    <link rel="stylesheet" href="/css/profile.css" />
+</head>
+<body>
+<main class="profile-section">
+    <h2 class="page-title">Мои оценки</h2>
+
+    <div id="ratings-list"></div>
+</main>
+<nav class="bottom-nav" role="navigation" aria-label="Основная навигация">
+    <button onclick="goToList()" aria-label="Список" class="nav-item" type="button" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-10v2h14V7H7z"/></svg>
+        <span>Список</span>
+    </button>
+    <button onclick="goToHistory()" aria-label="История" class="nav-item" type="button" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7V3z"/><path d="M12 7h1v5h-4v-1h3z"/></svg>
+        <span>История</span>
+    </button>
+    <button onclick="goToFind()" aria-label="Поиск" class="nav-item" type="button" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.07 5.61 12.28 3 8.5 3S2 5.61 2 9.5 5.22 16 9 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9 14c-2.49 0-4.5-2.01-4.5-4.5S6.51 5 9 5s4.5 2.01 4.5 4.5S11.49 14 9 14z"/></svg>
+        <span>Поиск</span>
+    </button>
+    <button onclick="goToFavourites()" aria-label="Избранное" class="nav-item" type="button" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4 8 4 9.5 5 10 6.09 10.5 5 12 4 13.5 4c2.51 0 4.5 2 4.5 4.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>Избранное</span>
+    </button>
+    <button aria-label="Профиль" class="nav-item active" type="button" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+    </button>
+</nav>
+<script src="js/navigation.js"></script>
+
+<script>
+    const consumer = JSON.parse(localStorage.getItem('user'));
+    const userId = consumer?.id;
+    const favoriteIds = consumer?.favourite_recipe_ids || [];
+
+    fetch(`http://127.0.0.1:5000/marks/consumer/${userId}`)
+        .then(res => res.json())
+        .then(marks => {
+            const container = document.getElementById('ratings-list');
+            if (!marks || marks.length === 0) {
+                container.innerHTML = '<p>У вас пока нет оценок</p>';
+                return;
+            }
+
+            marks.forEach(mark => {
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                container.appendChild(card);
+
+                fetch(`http://127.0.0.1:5000/recipes/${mark.recipe_id}`)
+                    .then(res => res.json())
+                    .then(recipe => {
+                        const isFavorite = favoriteIds.includes(recipe.id);
+                        card.innerHTML = `
+                            <div class="review-img">
+                                <img src="${recipe.image_url || 'placeholder.jpg'}" alt="${recipe.title}" />
+                            </div>
+                            <div class="review-content">
+                                <div class="review-header">
+                                    <h3>${recipe.title || 'Без названия'}</h3>
+                                    <button class="like-btn" data-recipe-id="${recipe.id}">${isFavorite ? '❤️' : '🤍'}</button>
+                                    </button>
+                                </div>
+                                <div class="brief-info">
+                                    <span>Порции: ${recipe.count_portion || '—'}</span>
+                                    <span>Просмотры: ${recipe.count_views || '—'}</span>
+                                </div>
+                                <div class="stars" id="stars-${mark.id}">
+                                    ${'★'.repeat(mark.value)}${'☆'.repeat(5 - mark.value)}
+                                </div>
+                                <p class="meta">Оценено: ${new Date(mark.date_time).toLocaleDateString()}</p>
+                                <div class="review-actions">
+                                    <button class="edit-rating" data-mark-id="${mark.id}" data-recipe-id="${mark.recipe_id}" data-current-value="${mark.value}">✏️ Изменить оценку</button>
+                                    <button class="delete-rating" data-mark-id="${mark.id}">🗑️ Удалить оценку</button>
+                                </div>
+                            </div>
+                        `;
+                        card.addEventListener('click', (e) => {window.location.href=`recipe.html?id=${recipe.id}`})
+                        const heartBtn = card.querySelector('.like-btn');
+                        heartBtn.addEventListener('click', async () => {
+                            const recipeId = parseInt(heartBtn.dataset.recipeId);
+                            const isCurrentlyFavorite = favoriteIds.includes(recipeId);
+                            const method = isCurrentlyFavorite ? 'DELETE' : 'POST';
+
+                            try {
+                                const response = await fetch(`http://127.0.0.1:5000/consumers/${consumer.id}/favorites/${recipeId}`, {
+                                    method,
+                                    headers: { 'Content-Type': 'application/json' }
+                                });
+
+                                const data = await response.json();
+
+                                if (data.success) {
+                                    consumer.favourite_recipe_ids = data.favourite_recipe_ids;
+                                    localStorage.setItem('consumer', JSON.stringify(consumer));
+                                    heartBtn.innerHTML = data.action === 'added' ? '❤️' : '🤍';
+                                } else {
+                                    alert(data.message || 'Ошибка при обновлении избранного');
+                                }
+                            } catch (error) {
+                                console.error('Ошибка при обновлении избранного:', error);
+                                alert('Не удалось обновить избранное');
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        card.innerHTML = `<p>Ошибка загрузки рецепта: ${err.message}</p>`;
+                    });
+            });
+        })
+        .catch(err => {
+            console.error('Ошибка при загрузке оценок:', err);
+            document.getElementById('ratings-list').innerHTML = '<p>Ошибка при загрузке оценок</p>';
+        });
+
+    // Редактирование и удаление оценок
+    document.addEventListener('click', function(event) {
+        const editBtn = event.target.closest('.edit-rating');
+        const deleteBtn = event.target.closest('.delete-rating');
+
+        // ✏️ Редактирование оценки
+        if (editBtn) {
+            const markId = editBtn.dataset.markId;
+            const recipeId = editBtn.dataset.recipeId;
+            const currentValue = parseInt(editBtn.dataset.currentValue);
+
+            const newValue = prompt('Введите новую оценку (от 1 до 5):', currentValue);
+
+            if (newValue && !isNaN(newValue)) {
+                const numValue = parseInt(newValue);
+                if (numValue >= 1 && numValue <= 5) {
+                    fetch(`http://127.0.0.1:5000/marks/${markId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ value: numValue })
+                    })
+                        .then(res => {
+                            if (res.ok) {
+                                // Обновляем отображение звёзд
+                                const starsElement = document.getElementById(`stars-${markId}`);
+                                if (starsElement) {
+                                    starsElement.innerHTML = '★'.repeat(numValue) + '☆'.repeat(5 - numValue);
+                                    editBtn.dataset.currentValue = numValue;
+                                }
+                            } else {
+                                alert('Ошибка при обновлении оценки');
+                            }
+                        })
+                        .catch(() => alert('Ошибка сети при обновлении.'));
+                } else {
+                    alert('Оценка должна быть от 1 до 5');
+                }
+            }
+        }
+
+        // 🗑️ Удаление оценки
+        if (deleteBtn) {
+            const markId = deleteBtn.dataset.markId;
+
+            if (confirm('Удалить оценку?')) {
+                fetch(`http://127.0.0.1:5000/marks/${markId}`, { method: 'DELETE' })
+                    .then(res => {
+                        if (res.ok) {
+                            deleteBtn.closest('.review-card')?.remove();
+                        } else {
+                            alert('Ошибка при удалении оценки');
+                        }
+                    })
+                    .catch(() => alert('Ошибка сети при удалении.'));
+            }
+        }
+    });
+</script>
+</body>
+</html>

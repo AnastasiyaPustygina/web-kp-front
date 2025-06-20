@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Редактирование профиля</title>
+    <link rel="stylesheet" href="css/profile.css" />
+</head>
+<body>
+
+<header>
+    <div class="avatar" role="img" aria-label="Аватар пользователя" style="background-image: url('https://i.pravatar.cc/96');"></div>
+    <div class="user-info">
+        <h1>Редактирование профиля</h1>
+        <p>Обновите личные данные</p>
+    </div>
+</header>
+
+<main>
+    <form id="editProfileForm" novalidate>
+        <section>
+            <h2>Личная информация</h2>
+            <label class="form-label">
+                Имя
+                <input type="text" name="name" class="form-input" required />
+            </label>
+
+            <label class="form-label">
+                Email
+                <input type="email" name="email" class="form-input" required />
+            </label>
+
+        </section>
+
+        <section>
+            <h2>Исключенные ингредиенты</h2>
+            <div class="input-group">
+                <input id="ingredient-input" placeholder="Поиск..." oninput="showSuggestions()" autocomplete="off" />
+                <ul id="suggestions"></ul>
+            </div>
+            <ul id="ingredient-list"></ul>
+        </section>
+
+        <div style="margin-top: 32px; text-align: center;">
+            <button id="save-bt" type="submit" class="save-button" onclick="submitPreferences()">Сохранить изменения</button>
+        </div>
+    </form>
+</main>
+
+<nav class="bottom-nav" role="navigation" aria-label="Основная навигация">
+    <button class="nav-item" type="button" aria-label="Список">
+        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-10v2h14V7H7z"/></svg>
+        <span>Список</span>
+    </button>
+    <button class="nav-item" type="button" aria-label="История">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7V3z"/><path d="M12 7h1v5h-4v-1h3z"/></svg>
+        <span>История</span>
+    </button>
+    <button class="nav-item" type="button" aria-label="Поиск">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.07 5.61 12.28 3 8.5 3S2 5.61 2 9.5 5.22 16 9 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9 14c-2.49 0-4.5-2.01-4.5-4.5S6.51 5 9 5s4.5 2.01 4.5 4.5S11.49 14 9 14z"/></svg>
+        <span>Поиск</span>
+    </button>
+    <button class="nav-item" type="button" aria-label="Избранное">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4 8 4 9.5 5 10 6.09 10.5 5 12 4 13.5 4c2.51 0 4.5 2 4.5 4.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>Избранное</span>
+    </button>
+    <button class="nav-item active" type="button" aria-label="Профиль">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+    </button>
+</nav>
+
+<script src="js/edit-profile.js">
+</script>
+
+</body>
+</html>

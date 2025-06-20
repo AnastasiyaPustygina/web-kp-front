@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Рецепт</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f9f9f9;
+            max-width: 900px;
+            margin: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .title-block {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            flex-grow: 1;
+        }
+        h1#recipe-title {
+            margin: 0;
+            font-size: 2rem;
+            white-space: nowrap;
+        }
+        .recipe-info {
+            display: flex;
+            gap: 15px;
+            font-size: 1rem;
+            color: #555;
+            flex-wrap: wrap;
+        }
+        .recipe-info > div {
+            background: #eee;
+            padding: 5px 12px;
+            border-radius: 20px;
+            user-select: none;
+            white-space: nowrap;
+        }
+        .fav-btn {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            user-select: none;
+            align-self: flex-start;
+        }
+        .recipe-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        .ingredients-block {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .ingredients-block h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .ingredients-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        .steps-title {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+        .step-number {
+            font-weight: 700;
+            font-size: 1.3rem;
+            min-width: 35px;
+            text-align: center;
+            color: #555;
+        }
+        .step-description {
+            flex-grow: 1;
+            font-size: 1rem;
+            color: #333;
+        }
+        .step-image {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .comments-block h2 {
+            margin-bottom: 20px;
+        }
+        .comment {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        .comment-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .comment-content {
+            flex-grow: 1;
+        }
+        .comment-author {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #222;
+        }
+        .comment-text {
+            font-size: 1rem;
+            color: #444;
+        }
+        .comments-block {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .comments-block h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .comments-block label {
+            display: block;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .comments-block select,
+        .comments-block textarea {
+            width: 100%;
+            max-width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .comments-block select:focus,
+        .comments-block textarea:focus {
+            border-color: #8000ff;
+            box-shadow: 0 0 5px rgba(174, 30, 256, 0.2);
+            outline: none;
+        }
+
+        .comments-block button[type="submit"] {
+            display: inline-block;
+            background-color: #8000ff;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .comments-block button[type="submit"]:hover {
+            background-color: #8000ff;
+        }
+        /* Адаптив */
+        @media(max-width: 600px) {
+            .step {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .step-image {
+                width: 100%;
+                height: 150px;
+                margin-top: 10px;
+            }
+            .step-number {
+                min-width: auto;
+                text-align: left;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .fav-btn {
+                align-self: flex-start;
+            }
+            .comment {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="title-block">
+        <h1 id="recipe-title">Название рецепта</h1>
+        <div class="recipe-info">
+            <div id="rating">⭐ 4.5</div>
+            <div id="portions">🍽 2 порции</div>
+            <div id="views">👁️ 1234 просмотров</div>
+        </div>
+    </div>
+    <button id="fav-btn" class="fav-btn" data-recipe-id="${recipe.id}"></button>
+</div>
+
+<img src="" alt="Фото рецепта" class="recipe-image" id="recipe-image" />
+
+<div class="ingredients-block">
+    <h2>Ингредиенты:</h2>
+    <ul id="ingredients-list" class="ingredients-list">
+        <!-- Ингредиенты -->
+    </ul>
+</div>
+
+<h2 class="steps-title">Как готовить?</h2>
+<div id="steps-container">
+    <!-- Шаги -->
+</div>
+
+<div class="comments-block">
+        <h2>Оставить отзыв</h2>
+        <form id="review-form">
+            <label>
+                Оценка:
+                <select id="mark" required>
+                    <option value="">--</option>
+                    <option value="5">5 — Отлично</option>
+                    <option value="4">4 — Хорошо</option>
+                    <option value="3">3 — Нормально</option>
+                    <option value="2">2 — Плохо</option>
+                    <option value="1">1 — Ужасно</option>
+                </select>
+            </label>
+            <br/><br/>
+            <label>
+                Комментарий (необязательно):<br/>
+                <textarea id="comment-text" rows="4" style="width: 100%; max-width: 600px;"></textarea>
+            </label>
+            <br/><br/>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+<div class="comments-block" style="margin-top: 20px;">
+    <h2>Комментарии</h2>
+    <div id="comments-list">
+        <!-- Комментарии -->
+    </div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    let recipeId = urlParams.get('id');
+
+    const recipeTitleEl = document.getElementById('recipe-title');
+    const recipeImageEl = document.getElementById('recipe-image');
+    const ingredientsListEl = document.getElementById('ingredients-list');
+    const stepsContainer = document.getElementById('steps-container');
+    let favBtn = document.getElementById('fav-btn');
+
+    const ratingEl = document.getElementById('rating');
+    const portionsEl = document.getElementById('portions');
+    const viewsEl = document.getElementById('views');
+
+    const commentsListEl = document.getElementById('comments-list');
+
+    const consumer = JSON.parse(localStorage.getItem("user")) || {};
+    let isFavorite = consumer.favourite_recipe_ids.includes(Number(recipeId));
+    console.log(consumer.favourite_recipe_ids);
+    console.log(recipeId)
+    console.log(isFavorite)
+    favBtn.textContent = isFavorite ? '❤️' : '🤍'
+    const favoriteIds = consumer.favourite_recipe_ids || [];
+    favBtn.addEventListener('click', async () => {
+        isFavorite = !isFavorite;
+        favBtn.textContent = isFavorite ? '❤️' : '🤍';
+
+        const method = isFavorite ? 'POST' : 'DELETE';
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/consumers/${consumer.id}/favorites/${recipeId}`, {
+                method,
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                consumer.favourite_recipe_ids = data.favourite_recipe_ids;
+                localStorage.setItem('user', JSON.stringify(consumer));
+                favBtn.textContent = data.action === 'added' ? '❤️' : '🤍';
+            } else {
+                alert(data.message || 'Ошибка при обновлении избранного');
+            }
+        } catch (error) {
+            console.error('Ошибка при обновлении избранного:', error);
+            alert('Не удалось обновить избранное');
+        }
+    });
+
+    async function loadRecipe() {
+        if (!recipeId) {
+            alert('ID рецепта не указан в URL');
+            return;
+        }
+
+        try {
+            const resRecipe = await fetch(`http://127.0.0.1:5000/recipes/${recipeId}`);
+            if (!resRecipe.ok) throw new Error('Ошибка загрузки рецепта');
+            const recipe = await resRecipe.json();
+
+            recipeTitleEl.textContent = recipe.title;
+            recipeImageEl.src = recipe.image_url || 'placeholder.jpg';
+            recipeImageEl.alt = recipe.title;
+
+            ratingEl.textContent = `⭐ ${recipe.rating?.toFixed(1) || '-'}`;
+            portionsEl.textContent = `🍽 ${recipe.count_portion || '-'} порций`;
+            viewsEl.textContent = `👁️ ${recipe.count_views || '0'} просмотров`;
+
+            ingredientsListEl.innerHTML = '';
+            for (const ingredientId of recipe.ingredients) {
+                const resIngredient = await fetch(`http://127.0.0.1:5000/ingredients/${ingredientId}`);
+                if (!resIngredient.ok) continue;
+                const ingredient = await resIngredient.json();
+                const li = document.createElement('li');
+                li.textContent = ingredient.name;
+                ingredientsListEl.appendChild(li);
+            }
+
+            // Шаги
+            const resSteps = await fetch(`http://127.0.0.1:5000/recipe-steps/${recipeId}`);
+            if (!resSteps.ok) throw new Error('Ошибка загрузки шагов');
+            const steps = await resSteps.json();
+
+            stepsContainer.innerHTML = '';
+            for (const step of steps) {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'step';
+
+                const stepNumber = document.createElement('div');
+                stepNumber.className = 'step-number';
+                stepNumber.textContent = step.number_step;
+
+                const stepDesc = document.createElement('div');
+                stepDesc.className = 'step-description';
+                stepDesc.textContent = step.description;
+
+                const stepImg = document.createElement('img');
+                stepImg.className = 'step-image';
+                stepImg.src = step.image_url || 'placeholder-step.jpg';
+                stepImg.alt = `Шаг ${step.number_step}`;
+
+                stepEl.appendChild(stepNumber);
+                stepEl.appendChild(stepDesc);
+                stepEl.appendChild(stepImg);
+
+                stepsContainer.appendChild(stepEl);
+            }
+            const resComments = await fetch(`http://127.0.0.1:5000/comments/recipe/${recipeId}`);
+            if (!resComments.ok) throw new Error('Ошибка загрузки комментариев');
+            const comments = await resComments.json();
+
+            commentsListEl.innerHTML = '';
+            for (const comment of comments) {
+                const commentEl = document.createElement('div');
+                commentEl.className = 'comment';
+
+                const avatarEl = document.createElement('img');
+                avatarEl.className = 'comment-avatar';
+                avatarEl.src = comment.author_avatar_url || 'default-avatar.png';
+                avatarEl.alt = comment.author_name ? `${comment.author_name} аватар` : 'Аватар пользователя';
+
+                const contentEl = document.createElement('div');
+                contentEl.className = 'comment-content';
+
+                const authorEl = document.createElement('div');
+                authorEl.className = 'comment-author';
+                authorEl.textContent = comment.author_name || 'Аноним';
+
+                const textEl = document.createElement('div');
+                textEl.className = 'comment-text';
+                textEl.textContent = comment.text;
+
+                contentEl.appendChild(authorEl);
+                contentEl.appendChild(textEl);
+
+                commentEl.appendChild(avatarEl);
+                commentEl.appendChild(contentEl);
+
+                commentsListEl.appendChild(commentEl);
+            }
+
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+    async function addToHistory(recipeId, consumerId) {
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/consumers/${consumerId}/history/${recipeId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'Ошибка добавления в историю');
+
+            const consumer = JSON.parse(localStorage.getItem("user")) || {}
+            consumer.history = consumer.history || [];
+            consumer.history = consumer.history.filter(id => id != recipeId);
+            consumer.history.unshift(Number(recipeId));
+            consumer.history = consumer.history.slice(0, 20);
+            localStorage.setItem("user", JSON.stringify(consumer));
+            console.log('Добавлено в историю:', data);
+        } catch (error) {
+            console.error('Ошибка добавления в историю:', error);
+        }
+    }
+    addToHistory(recipeId, consumer.id);
+    loadRecipe();
+    const reviewForm = document.getElementById('review-form');
+    const markSelect = document.getElementById('mark');
+    const commentTextEl = document.getElementById('comment-text');
+
+    reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const markValue = Number(markSelect.value);
+        const commentText = commentTextEl.value.trim();
+
+        try {
+            let markId = null;
+
+            if (markValue >= 1 && markValue <= 5) {
+                const resMark = await fetch('http://127.0.0.1:5000/marks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        consumer_id: consumer.id,
+                        recipe_id: Number(recipeId),
+                        value: markValue
+                    })
+                });
+
+                const markData = await resMark.json();
+                if (!resMark.ok) throw new Error(markData.error || 'Ошибка при оценке');
+
+                markId = markData.id;
+            }
+            console.log(JSON.stringify({
+                text: commentText,
+                consumer_id: consumer.id,
+                mark_id: markId,
+                recipe_id: Number(recipeId)
+            }))
+            if (commentText.length > 0 && markId !== null) {
+                const resComment = await fetch('http://127.0.0.1:5000/comments/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: commentText,
+                        consumer_id: consumer.id,
+                        mark_id: markId,
+                        recipe_id: Number(recipeId)
+                    })
+                });
+
+                const commentData = await resComment.json();
+                if (!resComment.ok) throw new Error(commentData.error || 'Ошибка при добавлении комментария');
+            }
+
+            alert('Спасибо за отзыв!');
+            reviewForm.reset();
+            loadRecipe();
+
+        } catch (error) {
+            console.error(error);
+            alert(error.message || 'Ошибка при отправке отзыва');
+        }
+    });
+</script>
+
+</body>
+</html>

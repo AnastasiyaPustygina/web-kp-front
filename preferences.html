@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Регистрация</title>
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+<div class="container">
+  <h2>Укажите предпочтения</h2>
+  <p>Выберите продукты, которые не можете или не хотите принимать в пищу</p>
+  <div class="input-group">
+    <input id="ingredient-input" placeholder="Поиск или добавление..." oninput="showSuggestions()" autocomplete="off" />
+    <ul id="suggestions"></ul>
+  </div>
+  <ul id="ingredient-list"></ul>
+  <button id="save-bt" onclick="submitPreferences()">Сохранить</button>
+
+  <div class="bottom-link">
+    Уже есть аккаунт? <a href="login.html">Войти</a>
+  </div>
+</div>
+<script src="js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Регистрация</title>
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+<div class="container">
+  <h2>Рады приветствовать!</h2>
+  <p>Укажите ваши данные для регистрации и настройте свои предпочтения</p>
+
+  <div class="input-group">
+    <input id="reg-email" placeholder="Введите email или номер телефона" />
+    <div id="email-error" class="error-message">Пожалуйста, введите корректный email или номер телефона</div>
+  </div>
+
+  <div class="input-group">
+    <input id="reg-name" placeholder="Как к вам обращаться?" />
+    <div id="name-error" class="error-message">Пожалуйста, укажите ваше имя</div>
+  </div>
+
+  <div class="input-group">
+    <input id="reg-password" type="password" placeholder="Введите пароль" />
+    <div id="password-error" class="error-message">Пароль должен содержать минимум 6 символов, включая буквы и цифры</div>
+  </div>
+
+  <div class="input-group">
+    <input id="reg-confirm" type="password" placeholder="Подтвердите пароль" />
+    <div id="confirm-error" class="error-message">Пароли не совпадают</div>
+  </div>
+
+  <button onclick="register()">Продолжить</button>
+
+  <div class="bottom-link">
+    Уже есть аккаунт? <a href="login.html">Войти</a>
+  </div>
+</div>
+<script src="js/login.js"></script>
+</body>
+</html>

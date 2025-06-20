@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Мои отзывы</title>
+  <link rel="stylesheet" href="css/profile.css" />
+</head>
+<body>
+<main class="profile-section">
+  <h2 class="page-title">Мои отзывы</h2>
+
+  <div id="reviews-list"></div>
+
+</main>
+<nav onclick="goToList()" class="bottom-nav" role="navigation" aria-label="Основная навигация">
+  <button aria-label="Список" class="nav-item" type="button" tabindex="0">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-10v2h14V7H7z"/></svg>
+    <span>Список</span>
+  </button>
+  <button onclick="goToHistory()" aria-label="История" class="nav-item" type="button" tabindex="0">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7V3z"/><path d="M12 7h1v5h-4v-1h3z"/></svg>
+    <span>История</span>
+  </button>
+  <button onclick="goToFind()" aria-label="Поиск" class="nav-item" type="button" tabindex="0">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.07 5.61 12.28 3 8.5 3S2 5.61 2 9.5 5.22 16 9 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9 14c-2.49 0-4.5-2.01-4.5-4.5S6.51 5 9 5s4.5 2.01 4.5 4.5S11.49 14 9 14z"/></svg>
+    <span>Поиск</span>
+  </button>
+  <button onclick="goToFavourites()" aria-label="Избранное" class="nav-item" type="button" tabindex="0">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 3.99 4 6.5 4 8 4 9.5 5 10 6.09 10.5 5 12 4 13.5 4c2.51 0 4.5 2 4.5 4.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <span>Избранное</span>
+  </button>
+  <button aria-label="Профиль" class="nav-item active" type="button" tabindex="0">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+  </button>
+</nav>
+<script src="js/navigation.js"></script>
+
+<script src="js/my-comments.js">
+</script>
+</body>
+</html>
