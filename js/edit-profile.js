@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const user = JSON.parse(userJson);
+        createAvatar(user.username)
         initUserForm(user);
         await loadInitialData(user);
     } catch (error) {
@@ -173,3 +174,28 @@ document.getElementById('editProfileForm').addEventListener('submit', function(e
 });
 
 document.getElementById('save-bt').addEventListener('click', submitPreferences);
+function getAvatarColor(name) {
+    const colors = ['#FFB300', '#E57373', '#64B5F6', '#81C784', '#BA68C8', '#FFD54F', '#4DB6AC', '#F06292'];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash % colors.length);
+    return colors[index];
+}
+
+function createAvatar(name) {
+    const avatarEl = document.getElementById('userAvatar');
+    const initials = name.slice(0, 2).toUpperCase();
+    const bgColor = getAvatarColor(name);
+
+    avatarEl.textContent = initials;
+    avatarEl.style.backgroundColor = bgColor;
+    avatarEl.style.color = '#fff';
+    avatarEl.style.display = 'flex';
+    avatarEl.style.alignItems = 'center';
+    avatarEl.style.justifyContent = 'center';
+    avatarEl.style.fontWeight = 'bold';
+    avatarEl.style.fontSize = '20px';
+    avatarEl.style.borderRadius = '50%';
+}

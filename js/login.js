@@ -1,7 +1,11 @@
 
 API_URL = 'http://localhost:5000/consumers';
 
+let INGREDIENTS_URL = 'http://localhost:5000/ingredients/';
 
+let filtered = [];
+let selected = new Set();
+let ingredients = [];
 function validateEmail(email) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -142,11 +146,6 @@ function login() {
         .catch(() => alert("Неверный логин или пароль"));
 }
 
-let INGREDIENTS_URL = 'http://localhost:5000/ingredients/';
-
-let ingredients = [];
-let filtered = [];
-let selected = new Set();
 
 document.getElementById('ingredient-input').addEventListener('input', filterIngredients);
 document.getElementById('save-bt').addEventListener('click', submitPreferences);

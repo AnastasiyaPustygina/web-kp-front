@@ -404,10 +404,42 @@
                 const commentEl = document.createElement('div');
                 commentEl.className = 'comment';
 
-                const avatarEl = document.createElement('img');
+                const avatarEl = document.createElement('div');
                 avatarEl.className = 'comment-avatar';
-                avatarEl.src = comment.author_avatar_url || 'default-avatar.png';
-                avatarEl.alt = comment.author_name ? `${comment.author_name} аватар` : 'Аватар пользователя';
+
+                if (comment.author_avatar_url) {
+                    // Используем изображение, если оно есть
+                    const img = document.createElement('img');
+                    img.src = comment.author_avatar_url;
+                    img.alt = comment.author_name ? `${comment.author_name} аватар` : 'Аватар пользователя';
+                    img.className = 'comment-avatar';
+                    avatarEl.appendChild(img);
+                } else {
+                    // Генерируем цветной аватар с инициалами
+                    const initials = (comment.author_name || 'Аноним').slice(0, 2).toUpperCase();
+                    const bgColor = getAvatarColor(comment.author_name || 'Аноним');
+
+                    avatarEl.textContent = initials;
+                    avatarEl.style.backgroundColor = bgColor;
+                    avatarEl.style.color = '#fff';
+                    avatarEl.style.display = 'flex';
+                    avatarEl.style.alignItems = 'center';
+                    avatarEl.style.justifyContent = 'center';
+                    avatarEl.style.fontWeight = 'bold';
+                    avatarEl.style.fontSize = '20px';
+                    avatarEl.style.borderRadius = '50%';
+                    avatarEl.style.width = '50px';
+                    avatarEl.style.height = '50px';
+                }
+                function getAvatarColor(name) {
+                    const colors = ['#FFB300', '#E57373', '#64B5F6', '#81C784', '#BA68C8', '#FFD54F', '#4DB6AC', '#F06292'];
+                    let hash = 0;
+                    for (let i = 0; i < name.length; i++) {
+                        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                    }
+                    const index = Math.abs(hash % colors.length);
+                    return colors[index];
+                }
 
                 const contentEl = document.createElement('div');
                 contentEl.className = 'comment-content';

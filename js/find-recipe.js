@@ -79,7 +79,7 @@ function setupSearch() {
 }
 
 async function submitRecipe() {
-    if (selectedIds.length === 0) {
+    if (selectedIds.size === 0) {
         alert('Выберите хотя бы один ингредиент');
         return;
     }

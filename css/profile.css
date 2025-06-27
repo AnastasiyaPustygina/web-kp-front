@@ -223,7 +223,6 @@ header .avatar {
     height: var(--avatar-size-desktop);
     border-radius: 50%;
     border: 3px solid var(--color-white);
-    background-image: url('https://i.pravatar.cc/96');
     background-size: cover;
     background-position: center;
     flex-shrink: 0;

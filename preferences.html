@@ -20,6 +20,165 @@
     Уже есть аккаунт? <a href="login.html">Войти</a>
   </div>
 </div>
-<script src="js/login.js"></script>
+<script>
+
+  API_URL = 'http://localhost:5000/consumers';
+
+  let INGREDIENTS_URL = 'http://localhost:5000/ingredients/';
+
+  let filtered = [];
+  let selected = new Set();
+  let ingredients = [];
+
+  document.getElementById('ingredient-input').addEventListener('input', filterIngredients);
+  document.getElementById('save-bt').addEventListener('click', submitPreferences);
+
+  function fetchIngredients() {
+    fetch(INGREDIENTS_URL)
+            .then(res => res.json())
+            .then(data => {
+              ingredients = data;
+              filtered = [...ingredients];
+              renderList();
+            })
+            .catch(() => alert("Не удалось загрузить ингредиенты"));
+  }
+
+  function renderList() {
+    const list = document.getElementById('ingredient-list');
+    list.innerHTML = '';
+    filtered.forEach(ingredient => {
+      const card = document.createElement('div');
+      card.className = 'ingredient-card';
+      if (selected.has(ingredient.id)) {
+        card.classList.add('selected');
+      }
+
+      card.onclick = () => toggleIngredient(ingredient.id);
+
+      card.innerHTML = `
+      <img src="${ingredient.image_url}" alt="${ingredient.name}" />
+      <span>${ingredient.name}</span>
+    `;
+      list.appendChild(card);
+    });
+  }
+
+  function toggleIngredient(id) {
+    if (selected.has(id)) {
+      selected.delete(id);
+    } else {
+      selected.add(id);
+    }
+    renderList();
+  }
+
+  function filterIngredients() {
+    const query = document.getElementById('ingredient-input').value.toLowerCase();
+    filtered = ingredients.filter(i => i.name.toLowerCase().includes(query));
+    renderList();
+  }
+
+  fetchIngredients();
+  let tempId = -1;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    fetch(INGREDIENTS_URL)
+            .then(res => res.json())
+            .then(data => {
+              ingredients = data;
+            })
+            .catch(() => alert("Не удалось загрузить ингредиенты"));
+  });
+
+  function showSuggestions() {
+    const input = document.getElementById('ingredient-input');
+    const query = input.value.toLowerCase().trim();
+    const suggestionBox = document.getElementById('suggestions');
+    suggestionBox.innerHTML = '';
+
+    if (!query) return;
+
+    const matched = ingredients
+            .filter(i => i.name.toLowerCase().startsWith(query))
+            .filter(i => !selected.has(i.id)) // исключить уже выбранные
+            .slice(0, 6); // не больше 6 подсказок
+
+    matched.forEach(i => {
+      const li = document.createElement('li');
+      li.textContent = i.name;
+      li.onclick = () => {
+        selected.add(i.id);
+        renderList();
+        input.value = '';
+        suggestionBox.innerHTML = '';
+      };
+      suggestionBox.appendChild(li);
+    });
+  }
+
+  function renderList() {
+    const list = document.getElementById('ingredient-list');
+    list.innerHTML = '';
+    selected.forEach(id => {
+      const ingredient = ingredients.find(i => i.id === id);
+      if (!ingredient) return;
+
+      const card = document.createElement('div');
+      card.className = 'ingredient-card';
+
+      card.innerHTML = `
+            <button class="remove-btn" onclick="removeIngredient(${ingredient.id})">&times;</button>
+            <img src="${ingredient.image_url}" alt="${ingredient.name}" />
+            <span>${ingredient.name}</span>
+        `;
+
+      list.appendChild(card);
+    });
+  }
+  function removeIngredient(id) {
+    selected.delete(id);
+    renderList();
+  }
+
+  function toggleIngredient(id) {
+    if (selected.has(id)) selected.delete(id);
+    else selected.add(id);
+    renderList();
+  }
+
+  function submitPreferences() {
+    const selectedIds = Array.from(selected);
+
+    console.log('Выбранные ингредиенты:', selectedIds);
+
+    const userId = localStorage.getItem('userId');
+
+    fetch(`${API_URL}/ingr/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prohibited_ingredients: selectedIds
+      })
+    })
+            .then(async res => {
+              if (!res.ok) {
+                const errData = await res.json();
+                throw new Error(errData.message || 'Ошибка при обновлении профиля');
+              }
+              return res.json();
+            })
+            .then(data => {
+              console.log('Профиль обновлен:', data);
+              window.location.href = 'profile.html';
+            })
+            .catch(err => {
+              console.error('Ошибка:', err);
+              alert(`Ошибка: ${err.message}`);
+            });
+  }
+</script>
 </body>
 </html>

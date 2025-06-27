@@ -44,6 +44,7 @@ function loadUserProfile() {
             document.getElementById('createdCount').textContent = user.marks.length || 0;
 
             renderUserIngredients(user.prohibited_ingredient_ids);
+            createAvatar(user.username)
         })
         .catch(error => {
             console.error('Ошибка при загрузке профиля:', error);
@@ -65,5 +66,31 @@ function goToComments(){
 }
 
 window.addEventListener('DOMContentLoaded', loadUserProfile);
+function getAvatarColor(name) {
+    // Преобразуем имя в число и используем его для выбора цвета
+    const colors = ['#FFB300', '#E57373', '#64B5F6', '#81C784', '#BA68C8', '#FFD54F', '#4DB6AC', '#F06292'];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash % colors.length);
+    return colors[index];
+}
+
+function createAvatar(name) {
+    const avatarEl = document.getElementById('userAvatar');
+    const initials = name.slice(0, 2).toUpperCase();
+    const bgColor = getAvatarColor(name);
+
+    avatarEl.textContent = initials;
+    avatarEl.style.backgroundColor = bgColor;
+    avatarEl.style.color = '#fff';
+    avatarEl.style.display = 'flex';
+    avatarEl.style.alignItems = 'center';
+    avatarEl.style.justifyContent = 'center';
+    avatarEl.style.fontWeight = 'bold';
+    avatarEl.style.fontSize = '20px';
+    avatarEl.style.borderRadius = '50%';
+}
 
 
