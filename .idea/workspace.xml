@@ -4,17 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f9d307-e1f7-43fb-9839-5e1777ba6ff6" name="Changes" comment="">
+    <list default="true" id="d6f9d307-e1f7-43fb-9839-5e1777ba6ff6" name="Changes" comment="final kp commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/profile.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/profile.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edit-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/edit-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/edit-profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/edit-profile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/find-recipe.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/find-recipe.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preferences.html" beforeDir="false" afterPath="$PROJECT_DIR$/preferences.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recipe.html" beforeDir="false" afterPath="$PROJECT_DIR$/recipe.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/my-comments.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/my-comments.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,11 +100,24 @@
       <workItem from="1749929499765" duration="70252000" />
       <workItem from="1750268512102" duration="10021000" />
       <workItem from="1750879043678" duration="594000" />
-      <workItem from="1751033762779" duration="7813000" />
+      <workItem from="1751033762779" duration="11947000" />
     </task>
+    <task id="LOCAL-00001" summary="final kp commit">
+      <option name="closed" value="true" />
+      <created>1751060422286</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1751060422286</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="final kp commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="final kp commit" />
   </component>
 </project>

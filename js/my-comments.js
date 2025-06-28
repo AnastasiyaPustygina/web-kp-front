@@ -114,16 +114,33 @@ document.addEventListener('click', function (event) {
         const commentId = deleteBtn.dataset.commentId;
         const markId = deleteBtn.dataset.markId;
 
-        if (confirm('Удалить отзыв и оценку?')) {
-            fetch(`http://127.0.0.1:5000/comments/${commentId}`, {method: 'DELETE'})
-                .then(() => {
-                    deleteBtn.closest('.review-card')?.remove();
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Ошибка при удалении.');
-                });
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     }
 });
 

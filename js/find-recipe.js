@@ -98,6 +98,7 @@ async function submitRecipe() {
 
         const recipes = await response.json();
         localStorage.setItem('similar_recipes', JSON.stringify(recipes));
+        console.log(selectedIds, recipes);
 
         window.location.href = 'ready-recipes.html';
     } catch (error) {
